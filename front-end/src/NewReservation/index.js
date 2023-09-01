@@ -38,6 +38,8 @@ function NewReservation() {
         people: ""
     })
 
+    const [reservationError, setReservationError] = useState(false)
+
     const handleChange = (event) => {
         const { name, value } = event.target
         setFormData((prevData) => ({
@@ -48,9 +50,13 @@ function NewReservation() {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        await createReservation(formData)
-        history.push(`/dashboard/${formData.reservation_date}`)
-        
+        const abortController = new AbortController()
+        try {
+            await createReservation(formData, abortController.signal),
+            history.push(`/dashboard?date=${formData.reservation_date}`)
+        } catch(error) {
+            setReservationError(error)
+        }   
     }
 
     console.log("current value of form:", formData)
@@ -128,7 +134,9 @@ function NewReservation() {
                     required 
                     min="1"
                 />
+                <br />
                 <button onClick={handleSubmit}>Submit</button>
+                <button>Cancel</button>
 
 
             </form>
