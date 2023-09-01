@@ -24,7 +24,10 @@ const axios = require("axios")
 
 
 
+
 function NewReservation() {
+    const history = useHistory()
+    
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
@@ -44,13 +47,13 @@ function NewReservation() {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const url = process.env.REACT_APP_API_BASE_URL || "http://localhost:5001";
+        const url = `${process.env.REACT_APP_API_BASE_URL}/reservations/new`;
         axios
           .post(url, formData)
           .then((response) => {
             console.log("this was submitted:", response.data)
           })
-        history.pushState(`/decks/${formData.reservation_date}`)
+        history.push(`/dashboard/${formData.reservation_date}`)
         
     }
 
