@@ -19,6 +19,7 @@
 
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
+import { createReservation } from "../utils/api"
 
 const axios = require("axios")
 
@@ -27,7 +28,7 @@ const axios = require("axios")
 
 function NewReservation() {
     const history = useHistory()
-    
+
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
@@ -47,12 +48,7 @@ function NewReservation() {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const url = `${process.env.REACT_APP_API_BASE_URL}/reservations/new`;
-        axios
-          .post(url, formData)
-          .then((response) => {
-            console.log("this was submitted:", response.data)
-          })
+        await createReservation(formData)
         history.push(`/dashboard/${formData.reservation_date}`)
         
     }
