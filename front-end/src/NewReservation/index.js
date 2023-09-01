@@ -20,6 +20,7 @@
 import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 import { createReservation } from "../utils/api"
+import ErrorAlert from "../layout/ErrorAlert"
 
 const axios = require("axios")
 
@@ -57,6 +58,11 @@ function NewReservation() {
         } catch(error) {
             setReservationError(error)
         }   
+        return () => abortController.abort()
+    }
+
+    const handleCancel = (event) => {
+        history.goBack()
     }
 
     console.log("current value of form:", formData)
@@ -64,6 +70,7 @@ function NewReservation() {
     return (
         <>
             <h2>New Reservation</h2>
+            <ErrorAlert error={ reservationError }/>
             <form>
                 <label htmlFor="first_name">First name:</label>
                 <input 
@@ -136,7 +143,7 @@ function NewReservation() {
                 />
                 <br />
                 <button onClick={handleSubmit}>Submit</button>
-                <button>Cancel</button>
+                <button onClick={handleCancel}>Cancel</button>
 
 
             </form>
