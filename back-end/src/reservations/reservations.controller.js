@@ -37,34 +37,47 @@ const hasRequiredProperties = hasProperties(
   "people"
 )
 
-function hasMobileNumber(req, res, next) {
-  const phone = req.body.data.mobile_number
-  if (phone) {
+function peopleIsANumber(req, res, next) {
+  const people = req.body.data.people
+
+  if (people > 0 && typeof people === "number") {
     return next()
   }
   next({
     status: 400,
-    message: "mobile_number property required."
+    message: "Valid people property required."
   })
 }
 
-function peopleIsANumber() {
+function reservationDateIsADate(req, res, next) {
+  const date = req.body.data.reservation_date
+  const valid = Date.parse(date)
 
+  if (valid) {
+    return next()
+  }
 }
 
-function reservationDateIsADate() {
-
-}
-
-function reservationTimeIsATime() {
-
+function reservationTimeIsATime(req, res, next) {
+  const regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/
+  const time = req.body.data.reservation_time
+  const valid = time.match(regex)
+  if (valid) {
+    return next()
+  }
+  next({
+    status: 400,
+    message: "reservation_time must be valid time.",
+  })
 }
 
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
     hasRequiredProperties, 
-    hasMobileNumber,
+    reservationDateIsADate,
+    reservationTimeIsATime,
+    peopleIsANumber,
     asyncErrorBoundary(create)],
   
 };
