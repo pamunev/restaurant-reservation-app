@@ -56,6 +56,10 @@ function reservationDateIsADate(req, res, next) {
   if (valid) {
     return next()
   }
+  next({
+    status: 400,
+    message: "reservation_date must be a valid date."
+  })
 }
 
 function reservationTimeIsATime(req, res, next) {
