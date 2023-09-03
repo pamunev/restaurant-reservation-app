@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
-import { previous, next } from "../utils/date-time"
+import { previous, next, today } from "../utils/date-time"
 import ErrorAlert from "../layout/ErrorAlert";
 import { useLocation, useHistory } from "react-router-dom"
 import useQuery from "../utils/useQuery";
@@ -59,6 +59,27 @@ function Dashboard({ date }) {
     }
   }, [searchedDate, history])
 
+
+  // Change-date-button handlers
+
+  const handlePreviousDate = (event) => {
+    event.preventDefault()
+    history.push("/dashboard")
+    setCurrentDate(previous(currentDate))
+  }
+
+  const handleToday = (event) => {
+    event.preventDefault()
+    history.push("/dashboard")
+    setCurrentDate(today())
+  }
+
+  const handleNextDate = (event) => {
+    event.preventDefault()
+    history.push("/dashboard")
+    setCurrentDate(next(currentDate))
+  }
+
   return (
     <main>
       <h1>Dashboard</h1>
@@ -66,7 +87,22 @@ function Dashboard({ date }) {
         <h4 className="mb-0">Reservations for date: {currentDate}</h4>
       </div>
       <ErrorAlert error={reservationsError} />
+      <button onClick={handlePreviousDate}>Previous</button>
+      <button onClick={handleToday}>Today</button>
+      <button onClick={handleNextDate}>Next</button>
       <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>People in Party</th>
+            <th>Mobile #</th>
+            <th>Reservation Date</th>
+            <th>Reservation Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
         <tbody>
           {reservations.map((res) => (
             <ReservationDetail res={res} key={res.reservation_id} />

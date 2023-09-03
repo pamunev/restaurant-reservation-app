@@ -1,5 +1,6 @@
 const reservationsService = require("./reservations.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
+const hasProperties = require("../errors/hasProperties")
 
 /**
  * List handler for reservation resources
@@ -24,8 +25,46 @@ async function create (req, res) {
   res.status(201).json({ data })
 }
 
+// Validation Middleware
+
+const hasRequiredProperties = hasProperties(
+  "first_name",
+  "last_name",
+  "mobile_number",
+  "reservation_date",
+  "reservation_time",
+  "reservation_time",
+  "people"
+)
+
+function hasMobileNumber(req, res, next) {
+  const phone = req.body.data.mobile_number
+  if (phone) {
+    return next()
+  }
+  next({
+    status: 400,
+    message: "mobile_number property required."
+  })
+}
+
+function peopleIsANumber() {
+
+}
+
+function reservationDateIsADate() {
+
+}
+
+function reservationTimeIsATime() {
+
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
-  create: asyncErrorBoundary(create),
+  create: [
+    hasRequiredProperties, 
+    hasMobileNumber,
+    asyncErrorBoundary(create)],
   
 };
