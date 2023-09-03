@@ -75,6 +75,34 @@ function reservationTimeIsATime(req, res, next) {
   })
 }
 
+function notTuesday(req, res, next) {
+  const date = req.body.data.reservation_date
+  const weekday = new Date(date).getUTCDay()
+  if (!weekday === 2) {
+    return next()
+  }
+  next({
+    status: 400,
+    message: "Restaurant is closed on Tuesdays."
+  })
+
+
+}
+
+function notInThePast(req, res, next) {
+  const { reservation_date, reservation_time } = req.body.data
+  const today = Date.now()
+  const proposedDate = new Date(`${reservation_date} ${reservation_time}`).valueOf()
+  if (proposedDate > today) {
+    return next()
+  }
+  next({
+    status: 400,
+    message: "Reservation must be in the future."
+  })
+
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -82,6 +110,8 @@ module.exports = {
     reservationDateIsADate,
     reservationTimeIsATime,
     peopleIsANumber,
+    notInThePast,
+    notTuesday,
     asyncErrorBoundary(create)],
   
 };
