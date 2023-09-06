@@ -5,6 +5,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 import { useLocation, useHistory } from "react-router-dom";
 import useQuery from "../utils/useQuery";
 import ReservationDetail from "../NewReservation/ReservationDetail";
+import ReservationList from "../NewReservation/ReservationList";
 
 /**
  * Defines the dashboard page.
@@ -114,6 +115,12 @@ function Dashboard({ date }) {
           ))}
         </tbody>
       </table>
+      <br />
+      <h3>All Reservations</h3>
+      <br />
+      {reservations.map((res) => {
+        <ReservationList reservation={res} key={res.reservation_id} />;
+      })}
     </main>
   );
 }

@@ -23,6 +23,11 @@ async function list(req, res) {
   }
 }
 
+async function listAllReservations(req, res, next) {
+  const allReservations = await reservationsService.list();
+  res.json({ data: allReservations });
+}
+
 async function create(req, res) {
   const data = await reservationsService.create(req.body.data);
   res.status(201).json({ data });
@@ -134,6 +139,7 @@ function isWithinOpenHours(req, res, next) {
 
 module.exports = {
   list: asyncErrorBoundary(list),
+  listAllReservations,
   create: [
     hasRequiredProperties,
     reservationDateIsADate,
