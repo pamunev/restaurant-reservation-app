@@ -42,7 +42,10 @@ function NewReservation() {
     const [reservationError, setReservationError] = useState(false)
 
     const handleChange = (event) => {
-        const { name, value } = event.target
+        let { name, value } = event.target
+        if (name === "people") {
+            value = Number(value)
+        }
         setFormData((prevData) => ({
             ...prevData,
             [name]: value

@@ -78,6 +78,7 @@ function reservationTimeIsATime(req, res, next) {
 function notTuesday(req, res, next) {
   const date = req.body.data.reservation_date
   const weekday = new Date(date).getUTCDay()
+  console.log("weekday", weekday)
   if (weekday === 2) {
     return next({
       status: 400,
@@ -98,8 +99,25 @@ function notInThePast(req, res, next) {
     status: 400,
     message: "Reservation must be in the future."
   })
+}
+
+// A function to prevent reservations before 10:30 am
+// How do I parse time?
+/* 
+function open hours
+let opening = 10:30
+let closing = 21:30
+If reservation_time < opening || reservation time > closing
+then next(error)
+otherwise, next.
+*/
+
+function isWithinOpenHours(req, res, next) {
 
 }
+
+
+// A function to prevent reservatons after 9:30 pm
 
 module.exports = {
   list: asyncErrorBoundary(list),
