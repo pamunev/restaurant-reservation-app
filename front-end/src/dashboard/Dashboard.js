@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
-import { previous, next, today } from "../utils/date-time"
+import { previous, next, today } from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
-import { useLocation, useHistory } from "react-router-dom"
+import { useLocation, useHistory } from "react-router-dom";
 import useQuery from "../utils/useQuery";
 import ReservationDetail from "../NewReservation/ReservationDetail";
 
@@ -15,11 +15,11 @@ import ReservationDetail from "../NewReservation/ReservationDetail";
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-  const [currentDate, setCurrentDate] = useState(date)
+  const [currentDate, setCurrentDate] = useState(date);
 
-  const history = useHistory()
-  const location = useLocation()
-  const searchedDate = location.search.slice(-10)
+  const history = useHistory();
+  const location = useLocation();
+  const searchedDate = location.search.slice(-10);
 
   useEffect(loadDashboard, [date]);
 
@@ -33,52 +33,57 @@ function Dashboard({ date }) {
   }
 
   useEffect(() => {
-    const abortController = new AbortController()
+    const abortController = new AbortController();
 
     async function loadReservations() {
       try {
         if (currentDate === date) {
-          const returnedReservations = await listReservations({ date }, abortController.signal)
-          setReservations(returnedReservations)
+          const returnedReservations = await listReservations(
+            { date },
+            abortController.signal
+          );
+          setReservations(returnedReservations);
         } else {
-          const returnedReservations = await listReservations({ currentDate }, abortController.signal)
-          setReservations(returnedReservations)
+          const returnedReservations = await listReservations(
+            { currentDate },
+            abortController.signal
+          );
+          setReservations(returnedReservations);
         }
       } catch (error) {
-        setReservationsError(error)
+        setReservationsError(error);
       }
     }
-    loadReservations()
-    return () => abortController.abort()
-  }, [date, currentDate, history.location])
+    loadReservations();
+    return () => abortController.abort();
+  }, [date, currentDate, history.location]);
 
   // Fetching the query parameter
   useEffect(() => {
     if (searchedDate && searchedDate !== "") {
       setCurrentDate(searchedDate);
     }
-  }, [searchedDate, history])
-
+  }, [searchedDate, history]);
 
   // Change-date-button handlers
 
   const handlePreviousDate = (event) => {
-    event.preventDefault()
-    history.push("/dashboard")
-    setCurrentDate(previous(currentDate))
-  }
+    event.preventDefault();
+    history.push("/dashboard");
+    setCurrentDate(previous(currentDate));
+  };
 
   const handleToday = (event) => {
-    event.preventDefault()
-    history.push("/dashboard")
-    setCurrentDate(today())
-  }
+    event.preventDefault();
+    history.push("/dashboard");
+    setCurrentDate(today());
+  };
 
   const handleNextDate = (event) => {
-    event.preventDefault()
-    history.push("/dashboard")
-    setCurrentDate(next(currentDate))
-  }
+    event.preventDefault();
+    history.push("/dashboard");
+    setCurrentDate(next(currentDate));
+  };
 
   return (
     <main>
@@ -109,7 +114,6 @@ function Dashboard({ date }) {
           ))}
         </tbody>
       </table>
-      {JSON.stringify(reservations)}
     </main>
   );
 }
