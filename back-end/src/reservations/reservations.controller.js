@@ -118,12 +118,11 @@ otherwise, next.
 */
 
 function isWithinOpenHours(req, res, next) {
-  let openingTime = new Date();
-  let closingTime = new Date();
-  openingTime.setHours(10, 30, 0, 0);
-  closingTime.setHours(21, 30, 0, 0);
+  let openingTime = "10:30";
+  let closingTime = "21:30";
 
   let { reservation_time } = req.body.data;
+  console.log("time", reservation_time);
   if (reservation_time < openingTime || reservation_time > closingTime) {
     return next({
       status: 400,
