@@ -78,15 +78,13 @@ function reservationTimeIsATime(req, res, next) {
 function notTuesday(req, res, next) {
   const date = req.body.data.reservation_date
   const weekday = new Date(date).getUTCDay()
-  if (!weekday === 2) {
-    return next()
+  if (weekday === 2) {
+    return next({
+      status: 400,
+      message: "Restaurant is closed on Tuesdays."
+    })
   }
-  next({
-    status: 400,
-    message: "Restaurant is closed on Tuesdays."
-  })
-
-
+  next()
 }
 
 function notInThePast(req, res, next) {
