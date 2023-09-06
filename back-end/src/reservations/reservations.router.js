@@ -10,7 +10,7 @@ const methodNotAllowed = require("../errors/methodNotAllowed");
 
 router
   .route("/")
-  .get([controller.list, controller.listAllReservations])
+  .get(controller.list)
   .post(controller.create)
   .all(methodNotAllowed);
 
