@@ -5,7 +5,8 @@ import ErrorAlert from "../layout/ErrorAlert";
 import { useLocation, useHistory } from "react-router-dom";
 import useQuery from "../utils/useQuery";
 import ReservationDetail from "../NewReservation/ReservationDetail";
-import ReservationList from "../NewReservation/ReservationList";
+import TableList from "../Tables/TableList";
+import { listTables } from "../utils/api";
 
 /**
  * Defines the dashboard page.
@@ -17,6 +18,7 @@ function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [currentDate, setCurrentDate] = useState(date);
+  const [tables, setTables] = useState([]);
 
   const history = useHistory();
   const location = useLocation();
@@ -58,6 +60,23 @@ function Dashboard({ date }) {
     loadReservations();
     return () => abortController.abort();
   }, [date, currentDate, history.location]);
+
+  // Load all tables
+
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    async function loadTables() {
+      try {
+        const returnedTables = await listTables();
+        setTables(returnedTables);
+      } catch (error) {
+        setReservationsError(error);
+      }
+    }
+    loadTables();
+    return () => abortController.abort();
+  }, [history, date, currentDate]);
 
   // Fetching the query parameter
   useEffect(() => {
@@ -116,10 +135,35 @@ function Dashboard({ date }) {
         </tbody>
       </table>
       <br />
-      <h3>All Reservations</h3>
       <br />
-      {reservations.map((res) => {
-        <ReservationList reservation={res} key={res.reservation_id} />;
+      <div className="d-md-flex mb-3">
+        <h4 className="mb-0">All Tables</h4>
+      </div>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>People in Party</th>
+            <th>Mobile #</th>
+            <th>Reservation Date</th>
+            <th>Reservation Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reservations.map((res) => (
+            <ReservationDetail res={res} key={res.reservation_id} />
+          ))}
+        </tbody>
+      </table>
+      <br />
+      <div className="d-md-flex mb-3">
+        <h4 className="mb-0">Tables:</h4>
+      </div>
+      {tables.map((table) => {
+        <TableList table={table} key={table.table_id} />;
       })}
     </main>
   );
