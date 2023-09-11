@@ -135,36 +135,12 @@ function Dashboard({ date }) {
         </tbody>
       </table>
       <br />
-      <br />
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">All Tables</h4>
-      </div>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>People in Party</th>
-            <th>Mobile #</th>
-            <th>Reservation Date</th>
-            <th>Reservation Time</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservations.map((res) => (
-            <ReservationDetail res={res} key={res.reservation_id} />
-          ))}
-        </tbody>
-      </table>
-      <br />
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Tables:</h4>
       </div>
-      {tables.map((table) => {
-        <TableList table={table} key={table.table_id} />;
-      })}
+      {tables.map((table) => (
+        <TableList table={table} key={table.table_id} />
+      ))}
     </main>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ErrorAlert from "../layout/ErrorAlert";
 import TablesForm from "./TablesForm";
 
 function Tables() {

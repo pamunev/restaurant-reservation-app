@@ -33,6 +33,16 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
+async function createTable(req, res, next) {
+  const data = await service.create(req.body.data);
+  res.status(201).json({ data });
+}
+
+async function listTables(req, res, next) {
+  const data = await service.list();
+  res.status(201).json({ data });
+}
+
 // Validation Middleware
 
 const hasRequiredProperties = hasProperties(
@@ -150,4 +160,6 @@ module.exports = {
     isWithinOpenHours,
     asyncErrorBoundary(create),
   ],
+  createTable: asyncErrorBoundary(createTable),
+  listTables: asyncErrorBoundary(listTables),
 };
