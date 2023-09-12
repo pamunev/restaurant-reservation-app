@@ -167,6 +167,28 @@ function isWithinOpenHours(req, res, next) {
   next();
 }
 
+function notSeated(req, res, next) {
+  const status = req.body.data.status;
+  if (status !== "seated") {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "Status must not be 'seated'",
+  });
+}
+
+function notFinished(req, res, next) {
+  const status = req.body.data.status;
+  if (status !== "finished") {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "Status must not be 'finished'",
+  });
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   listAllReservations,
@@ -178,6 +200,8 @@ module.exports = {
     notInThePast,
     notTuesday,
     isWithinOpenHours,
+    notSeated,
+    notFinished,
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), read],

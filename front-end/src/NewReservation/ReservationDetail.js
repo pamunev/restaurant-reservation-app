@@ -27,12 +27,16 @@ function ReservationDetail({ res }) {
           {reservation.status}
         </td>
         <td>
-          <a
-            href={`/reservations/${reservation_id}/seat`}
-            className="btn btn-primary"
-          >
-            Seat
-          </a>
+          {reservation.status === "booked" ? (
+            <a
+              href={`/reservations/${reservation_id}/seat`}
+              className="btn btn-primary"
+            >
+              Seat
+            </a>
+          ) : (
+            <></>
+          )}
         </td>
       </tr>
     </>
