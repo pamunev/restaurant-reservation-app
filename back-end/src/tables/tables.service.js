@@ -22,8 +22,28 @@ function updateSeatRes(reservation_id, table_id) {
     .then(() => {
       return knex("tables")
         .where({ table_id })
-        .update({ reservation_id })
+        .update({
+          reservation_id: reservation_id,
+          table_status: "occupied",
+        })
         .returning("*");
+    });
+}
+
+function deleteTableAssignment(table_id, reservation_id) {
+  return knex("tables")
+    .where({ table_id })
+    .update(
+      {
+        reservation_id: null,
+        table_status: "free",
+      },
+      "*"
+    )
+    .then(() => {
+      return knex("reservations")
+        .where({ reservation_id })
+        .update({ status: "finished" }, "*");
     });
 }
 
@@ -36,5 +56,6 @@ module.exports = {
   readReservation,
   readTable,
   updateSeatRes,
+  deleteTableAssignment,
   list,
 };

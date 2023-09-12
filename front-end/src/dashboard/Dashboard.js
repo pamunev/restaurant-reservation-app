@@ -105,6 +105,16 @@ function Dashboard({ date }) {
     setCurrentDate(next(currentDate));
   };
 
+  const refreshTables = () => {
+    listTables()
+      .then((returnedTables) => {
+        setTables(returnedTables);
+      })
+      .catch((error) => {
+        setReservationsError(error);
+      });
+  };
+
   return (
     <main>
       <h1>Dashboard</h1>
@@ -139,7 +149,11 @@ function Dashboard({ date }) {
         <h4 className="mb-0">Tables:</h4>
       </div>
       {tables.map((table) => (
-        <TableList table={table} key={table.table_id} />
+        <TableList
+          table={table}
+          key={table.table_id}
+          refreshTables={refreshTables}
+        />
       ))}
     </main>
   );

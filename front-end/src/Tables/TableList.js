@@ -1,7 +1,25 @@
 import React from "react";
 import ErrorAlert from "../layout/ErrorAlert";
+import { deleteTableAssignment } from "../utils/api";
 
-function TableList({ table }) {
+function TableList({ table, refreshTables }) {
+  const handleFinishTable = async (event) => {
+    const abortController = new AbortController();
+
+    if (
+      window.confirm(
+        `Is this table ready to seat new guests? This cannot be undone.`
+      )
+    ) {
+      try {
+        await deleteTableAssignment(table.table_id, abortController.signal);
+        refreshTables();
+      } catch (error) {
+        console.error("Error finishing table:", error);
+      }
+    }
+  };
+
   return (
     <>
       <div className="card" key={table.table_id}>
@@ -13,6 +31,15 @@ function TableList({ table }) {
           <p data-table-id-status={table.table_id}>
             {table.reservation_id ? "occupied" : "free"}
           </p>
+          {table.reservation_id && (
+            <button
+              data-table-id-finish={table.table_id}
+              className="btn bottom-button-cancel"
+              onClick={handleFinishTable}
+            >
+              Finish
+            </button>
+          )}
         </div>
       </div>
     </>

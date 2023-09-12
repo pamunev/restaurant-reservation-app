@@ -17,6 +17,13 @@ async function updateSeatRes(req, res) {
   console.log("potato", data);
 }
 
+async function deleteTableAssignment(req, res, next) {
+  const { table } = res.locals;
+  await service.deleteTableAssignment(table.table_id, table.reservation_id);
+  const data = await service.list();
+  res.status(200).json({ data });
+}
+
 async function list(req, res, next) {
   const data = await service.list();
   res.status(200).json({ data });
@@ -33,7 +40,7 @@ async function tableExists(req, res, next) {
   }
   next({
     status: 404,
-    message: `table_id does not exist`,
+    message: `Table ${table_id} does not exist`,
   });
 }
 
@@ -122,6 +129,17 @@ function tableOpen(req, res, next) {
   });
 }
 
+function tableOccupied(req, res, next) {
+  const table = res.locals.table;
+  if (table.reservation_id) {
+    return next();
+  }
+  next({
+    status: 400,
+    message: `Table ${table.table_id} is not occupied.`,
+  });
+}
+
 module.exports = {
   create: [
     hasData,
@@ -138,6 +156,11 @@ module.exports = {
     tableOpen,
     asyncErrorBoundary(reservationPeopleFewerThanCapacity),
     asyncErrorBoundary(updateSeatRes),
+  ],
+  delete: [
+    asyncErrorBoundary(tableExists),
+    tableOccupied,
+    asyncErrorBoundary(deleteTableAssignment),
   ],
   list: asyncErrorBoundary(list),
 };

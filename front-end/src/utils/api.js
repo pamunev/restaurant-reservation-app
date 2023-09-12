@@ -105,3 +105,13 @@ export async function updateSeat(table_id, reservation_id, signal) {
   };
   return await fetchJson(url, options);
 }
+
+export async function deleteTableAssignment(tableId, signal) {
+  const url = `${API_BASE_URL}/tables/${tableId}/seat`;
+  const options = {
+    method: "DELETE",
+    headers,
+    signal,
+  };
+  return await fetchJson(url, options);
+}
