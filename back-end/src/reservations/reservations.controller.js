@@ -43,7 +43,27 @@ async function listTables(req, res, next) {
   res.status(201).json({ data });
 }
 
+// CREATE READ FUNCTION
+
+function read(req, res, next) {
+  const data = res.locals.reservation;
+  res.status(200).json({ data });
+}
+
 // Validation Middleware
+
+async function reservationExists(req, res, next) {
+  const { reservationId } = req.params;
+  const reservation = await reservationsService.read(reservationId);
+  if (reservation) {
+    res.locals.reservation = reservation;
+    return next();
+  }
+  next({
+    status: 404,
+    message: `Reservation ${reservationId} not found`,
+  });
+}
 
 const hasRequiredProperties = hasProperties(
   "first_name",
@@ -160,6 +180,7 @@ module.exports = {
     isWithinOpenHours,
     asyncErrorBoundary(create),
   ],
+  read: [asyncErrorBoundary(reservationExists), read],
   createTable: asyncErrorBoundary(createTable),
   listTables: asyncErrorBoundary(listTables),
 };

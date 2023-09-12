@@ -14,6 +14,11 @@ router
   .post(controller.create)
   .all(methodNotAllowed);
 
-router.route("/:reservationId/seat").post(controller.createTable);
+router
+  .route("/:reservationId/seat")
+  .post(controller.createTable)
+  .all(methodNotAllowed);
+
+router.route("/:reservationId").get(controller.read).all(methodNotAllowed);
 
 module.exports = router;

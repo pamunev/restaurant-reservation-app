@@ -14,6 +14,7 @@ async function updateSeatRes(req, res) {
     table.table_id
   );
   res.json({ data });
+  console.log("potato", data);
 }
 
 async function list(req, res, next) {

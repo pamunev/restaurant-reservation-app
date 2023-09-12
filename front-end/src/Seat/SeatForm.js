@@ -61,7 +61,9 @@ function SeatForm() {
         <br />
         <br />
         <button onClick={handleSubmit}>Submit</button>
-        <button onClick={handleCancel}>Cancel</button>
+        <button className="ml-2" onClick={handleCancel}>
+          Cancel
+        </button>
       </form>
     </>
   );
