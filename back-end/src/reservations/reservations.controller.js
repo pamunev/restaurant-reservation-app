@@ -1,4 +1,4 @@
-const reservationsService = require("./reservations.service");
+const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 
@@ -8,28 +8,24 @@ const hasProperties = require("../errors/hasProperties");
 async function list(req, res) {
   const { date, currentDate } = req.query;
   if (date) {
-    const reservations = await reservationsService.listReservationsForDate(
-      date
-    );
+    const reservations = await service.listReservationsForDate(date);
     res.json({ data: reservations });
   } else if (currentDate) {
-    const reservations = await reservationsService.listReservationsForDate(
-      currentDate
-    );
+    const reservations = await service.listReservationsForDate(currentDate);
     res.json({ data: reservations });
   } else {
-    const reservations = await reservationsService.list();
+    const reservations = await service.list();
     res.json({ data: reservations });
   }
 }
 
 async function listAllReservations(req, res, next) {
-  const allReservations = await reservationsService.list();
+  const allReservations = await service.list();
   res.json({ data: allReservations });
 }
 
 async function create(req, res) {
-  const data = await reservationsService.create(req.body.data);
+  const data = await service.create(req.body.data);
   res.status(201).json({ data });
 }
 
@@ -53,7 +49,7 @@ function read(req, res, next) {
 async function updateResStatus(req, res, next) {
   const { status } = req.body.data;
   const reservation = res.locals.reservation;
-  const data = await reservationsService.updateResStatus(
+  const data = await service.updateResStatus(
     reservation.reservation_id,
     status
   );
@@ -64,7 +60,7 @@ async function updateResStatus(req, res, next) {
 
 async function reservationExists(req, res, next) {
   const { reservationId } = req.params;
-  const reservation = await reservationsService.read(reservationId);
+  const reservation = await service.read(reservationId);
   if (reservation) {
     res.locals.reservation = reservation;
     return next();
