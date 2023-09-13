@@ -34,7 +34,7 @@ function createTable(table) {
 
 function updateResStatus(reservation_id, status) {
   return knex("reservations")
-    .where({ reservation_id: reservation_id })
+    .where({ reservation_id })
     .update({ status: status }, "*");
 }
 

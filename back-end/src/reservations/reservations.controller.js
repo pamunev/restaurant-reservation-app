@@ -39,7 +39,7 @@ async function createTable(req, res, next) {
 }
 
 async function listTables(req, res, next) {
-  const data = await reservationsService.listTables();
+  const data = await service.list();
   res.status(201).json({ data });
 }
 
@@ -57,7 +57,7 @@ async function updateResStatus(req, res, next) {
     reservation.reservation_id,
     status
   );
-  res.status(200).json({ data });
+  res.status(200).json({ data: { status: data[0].status } });
 }
 
 // Validation Middleware
@@ -75,27 +75,26 @@ async function reservationExists(req, res, next) {
   });
 }
 
-// Didn't realize I already basically have this function as notFinished()
-
-function statusNotFinished(req, res, next) {
+function notFinishedForUpdate(req, res, next) {
   const reservation = res.locals.reservation;
-  if (reservation.status !== "finished") {
+  if (reservation.status === "finished") {
+    next({
+      status: 400,
+      message: "reservation cannot already be finished.",
+    });
+  } else {
     return next();
   }
-  next({
-    status: 400,
-    message: "A finished reservation cannot be updated.",
-  });
 }
 
-function hasValidStatus(req, res, next) {
-  const reservation = res.locals.reservation;
-  if (reservation.status && reservation.status !== "unknown") {
+function updateValidStatus(req, res, next) {
+  const status = req.body.data.status;
+  if (status !== "unknown") {
     return next();
   }
   next({
     status: 400,
-    message: "Reservation status is unknown.",
+    message: "status cannot be unknown.",
   });
 }
 
@@ -219,12 +218,13 @@ function notFinished(req, res, next) {
   }
   next({
     status: 400,
-    message: "A finished reservation cannot be updated.",
+    message: "Status must not be 'finished'",
   });
 }
 
 module.exports = {
   list: asyncErrorBoundary(list),
+  listAllReservations,
   create: [
     hasRequiredProperties,
     reservationDateIsADate,
@@ -240,8 +240,8 @@ module.exports = {
   read: [asyncErrorBoundary(reservationExists), read],
   updateResStatus: [
     asyncErrorBoundary(reservationExists),
-    notFinished,
-    hasValidStatus,
+    notFinishedForUpdate,
+    updateValidStatus,
     asyncErrorBoundary(updateResStatus),
   ],
   createTable: asyncErrorBoundary(createTable),
