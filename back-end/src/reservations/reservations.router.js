@@ -15,10 +15,15 @@ router
   .all(methodNotAllowed);
 
 router
-  .route("/:reservationId/seat")
+  .route("/:reservation_id/seat")
   .post(controller.createTable)
   .all(methodNotAllowed);
 
-router.route("/:reservationId").get(controller.read).all(methodNotAllowed);
+router
+  .route("/:reservation_id/status")
+  .put(controller.updateResStatus)
+  .all(methodNotAllowed);
+
+router.route("/:reservation_id").get(controller.read).all(methodNotAllowed);
 
 module.exports = router;

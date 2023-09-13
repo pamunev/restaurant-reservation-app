@@ -115,6 +115,16 @@ function Dashboard({ date }) {
       });
   };
 
+  const refreshReservations = () => {
+    listReservations({ currentDate }, abortController.signal)
+      .then((returnedReservations) => {
+        setReservations(returnedReservations);
+      })
+      .catch((error) => {
+        setReservationsError(error);
+      });
+  };
+
   return (
     <main>
       <h1>Dashboard</h1>
@@ -153,6 +163,7 @@ function Dashboard({ date }) {
           table={table}
           key={table.table_id}
           refreshTables={refreshTables}
+          refreshReservations={refreshReservations}
         />
       ))}
     </main>

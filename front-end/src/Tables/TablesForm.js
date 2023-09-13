@@ -6,7 +6,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 function TablesForm() {
   let history = useHistory();
 
-  let [formData, setFormData] = useState({
+  let [tableToBeCreated, setTableToBeCreated] = useState({
     table_name: "",
     capacity: "",
   });
@@ -18,7 +18,7 @@ function TablesForm() {
     if (name === "capacity") {
       value = Number(value);
     }
-    setFormData((prevData) => ({
+    setTableToBeCreated((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -28,7 +28,7 @@ function TablesForm() {
     event.preventDefault();
     const abortController = new AbortController();
     try {
-      await createTable(formData, abortController.signal);
+      await createTable(tableToBeCreated, abortController.signal);
       history.push(`/dashboard`);
     } catch (error) {
       setTableError(error);
@@ -52,7 +52,7 @@ function TablesForm() {
           type="text"
           className="ml-2 mt-2"
           minlength="2"
-          value={formData.table_name}
+          value={tableToBeCreated.table_name}
           onChange={handleChange}
         />
         <br />
@@ -63,7 +63,7 @@ function TablesForm() {
           type="number"
           className="ml-2 mt-2"
           min="1"
-          value={formData.capacity}
+          value={tableToBeCreated.capacity}
           onChange={handleChange}
         />
         <br />

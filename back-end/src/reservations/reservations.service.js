@@ -32,6 +32,12 @@ function createTable(table) {
     .then((createdRecords) => createdRecords[0]);
 }
 
+function updateResStatus(reservation_id, status) {
+  return knex("reservations")
+    .where({ reservation_id: reservation_id })
+    .update({ status: status }, "*");
+}
+
 function listTables() {
   return knex("tables").select("*").orderBy("table_name");
 }
@@ -39,6 +45,7 @@ function listTables() {
 module.exports = {
   create,
   read,
+  updateResStatus,
   list,
   listReservationsForDate,
   createTable,

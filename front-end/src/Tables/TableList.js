@@ -1,8 +1,9 @@
 import React from "react";
 import ErrorAlert from "../layout/ErrorAlert";
 import { deleteTableAssignment } from "../utils/api";
+import { updateReservationStatus } from "../utils/api";
 
-function TableList({ table, refreshTables }) {
+function TableList({ table, refreshTables, refreshReservations }) {
   const handleFinishTable = async (event) => {
     const abortController = new AbortController();
 
@@ -13,7 +14,13 @@ function TableList({ table, refreshTables }) {
     ) {
       try {
         await deleteTableAssignment(table.table_id, abortController.signal);
+        await updateReservationStatus(
+          { status: "finished" },
+          table.reservation_id,
+          abortController.signal
+        );
         refreshTables();
+        refreshReservations();
       } catch (error) {
         console.error("Error finishing table:", error);
       }
@@ -34,7 +41,7 @@ function TableList({ table, refreshTables }) {
           {table.reservation_id && (
             <button
               data-table-id-finish={table.table_id}
-              className="btn bottom-button-cancel"
+              className="btn btn-danger"
               onClick={handleFinishTable}
             >
               Finish

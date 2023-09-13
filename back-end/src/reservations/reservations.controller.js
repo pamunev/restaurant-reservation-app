@@ -39,7 +39,7 @@ async function createTable(req, res, next) {
 }
 
 async function listTables(req, res, next) {
-  const data = await service.list();
+  const data = await reservationsService.listTables();
   res.status(201).json({ data });
 }
 
@@ -47,6 +47,16 @@ async function listTables(req, res, next) {
 
 function read(req, res, next) {
   const data = res.locals.reservation;
+  res.status(200).json({ data });
+}
+
+async function updateResStatus(req, res, next) {
+  const { status } = req.body.data;
+  const reservation = res.locals.reservation;
+  const data = await reservationsService.updateResStatus(
+    reservation.reservation_id,
+    status
+  );
   res.status(200).json({ data });
 }
 
@@ -62,6 +72,30 @@ async function reservationExists(req, res, next) {
   next({
     status: 404,
     message: `Reservation ${reservationId} not found`,
+  });
+}
+
+// Didn't realize I already basically have this function as notFinished()
+
+function statusNotFinished(req, res, next) {
+  const reservation = res.locals.reservation;
+  if (reservation.status !== "finished") {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "A finished reservation cannot be updated.",
+  });
+}
+
+function hasValidStatus(req, res, next) {
+  const reservation = res.locals.reservation;
+  if (reservation.status && reservation.status !== "unknown") {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "Reservation status is unknown.",
   });
 }
 
@@ -185,13 +219,12 @@ function notFinished(req, res, next) {
   }
   next({
     status: 400,
-    message: "Status must not be 'finished'",
+    message: "A finished reservation cannot be updated.",
   });
 }
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  listAllReservations,
   create: [
     hasRequiredProperties,
     reservationDateIsADate,
@@ -205,6 +238,12 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), read],
+  updateResStatus: [
+    asyncErrorBoundary(reservationExists),
+    notFinished,
+    hasValidStatus,
+    asyncErrorBoundary(updateResStatus),
+  ],
   createTable: asyncErrorBoundary(createTable),
   listTables: asyncErrorBoundary(listTables),
 };

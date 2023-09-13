@@ -7,7 +7,7 @@ import { updateSeat } from "../utils/api";
 function SeatForm() {
   const [tables, setTables] = useState([]);
   const [error, setError] = useState(null);
-  const [tableFormData, setTableFormData] = useState({});
+  const [tableToBeSeated, setTableToBeSeated] = useState({});
   const history = useHistory();
   const { reservation_id } = useParams();
 
@@ -20,8 +20,12 @@ function SeatForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const tableObj = JSON.parse(tableFormData);
-    updateSeat(tableObj.table_id, reservation_id)
+    const tableId = Number(tableToBeSeated);
+    if (isNaN(tableId)) {
+      return;
+    }
+    const reservationId = Number(reservation_id);
+    updateSeat(tableId, reservationId)
       .then((response) => {
         const newTables = tables.map((table) => {
           return table.table_id === response.table_id ? response : table;
@@ -39,29 +43,25 @@ function SeatForm() {
   return (
     <>
       <ErrorAlert error={error} />
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="table_id">Select table:</label>
         <select
           name="table_id"
           id="table_id"
           className="ml-2 mt-2"
-          onChange={(event) => setTableFormData(event.target.value)}
+          onChange={(event) => setTableToBeSeated(event.target.value)}
         >
           <option value="">Table Name - Capacity</option>
           {tables.map((table) => (
-            <option
-              key={table.table_id}
-              value={JSON.stringify(table)}
-              required={true}
-            >
+            <option key={table.table_id} value={table.table_id} required={true}>
               {table.table_name} - {table.capacity}
             </option>
           ))}
         </select>
         <br />
         <br />
-        <button onClick={handleSubmit}>Submit</button>
-        <button className="ml-2" onClick={handleCancel}>
+        <button>Submit</button>
+        <button type="button" className="ml-2" onClick={handleCancel}>
           Cancel
         </button>
       </form>
