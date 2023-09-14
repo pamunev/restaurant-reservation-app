@@ -44,7 +44,7 @@ function TableList({ table }) {
       debugger;
       const newTable = await clearAndLoadTables();
       console.log(newTable);
-      history.push("/tables");
+      history.push("/dashboard");
       return;
     }
   }

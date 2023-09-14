@@ -19,6 +19,8 @@ async function list(req, res) {
   }
 }
 
+async function listReservationsMatchingMobileNumber(req, res, next) {}
+
 async function listAllReservations(req, res, next) {
   const allReservations = await service.list();
   res.json({ data: allReservations });
