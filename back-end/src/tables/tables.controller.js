@@ -140,6 +140,18 @@ function tableOccupied(req, res, next) {
   });
 }
 
+function resNotAlreadySeated(req, res, next) {
+  // Do this.
+  const reservation = res.locals.reservation;
+  if (reservation.status !== "seated") {
+    return next();
+  }
+  next({
+    status: 400,
+    message: "Reservation is already seated.",
+  });
+}
+
 module.exports = {
   create: [
     hasData,
@@ -153,6 +165,7 @@ module.exports = {
     hasReservationID,
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(reservationExists),
+    resNotAlreadySeated,
     tableOpen,
     asyncErrorBoundary(reservationPeopleFewerThanCapacity),
     asyncErrorBoundary(updateSeatRes),

@@ -15,13 +15,17 @@ function read(reservation_id) {
 }
 
 function list() {
-  return knex("reservations").select("*").orderBy("reservation_time");
+  return knex("reservations")
+    .select("*")
+    .whereNot({ status: "finished" })
+    .orderBy("reservation_time");
 }
 
 function listReservationsForDate(date) {
   return knex("reservations")
     .select("*")
     .where({ reservation_date: date })
+    .whereNot({ status: "finished" })
     .orderBy("reservation_time");
 }
 

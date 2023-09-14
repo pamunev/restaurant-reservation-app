@@ -41,6 +41,7 @@ function TableList({ table }) {
         currentTable.reservation_id,
         abortController.signal
       );
+      debugger;
       const newTable = await clearAndLoadTables();
       console.log(newTable);
       history.push("/tables");

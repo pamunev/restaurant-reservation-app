@@ -59,15 +59,15 @@ async function updateResStatus(req, res, next) {
 // Validation Middleware
 
 async function reservationExists(req, res, next) {
-  const { reservationId } = req.params;
-  const reservation = await service.read(reservationId);
+  const { reservation_id } = req.params;
+  const reservation = await service.read(reservation_id);
   if (reservation) {
     res.locals.reservation = reservation;
     return next();
   }
   next({
     status: 404,
-    message: `Reservation ${reservationId} not found`,
+    message: `Reservation ${reservation_id} not found`,
   });
 }
 
