@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
 import Edit from "../Edit";
+import { updateReservationStatus, listTables } from "../utils/api";
 
 function ReservationDetail({ res }) {
   const [reservation, setReservation] = useState(res);
@@ -12,6 +13,28 @@ function ReservationDetail({ res }) {
   useEffect(() => {
     setReservation(reservation);
   }, [reservation, history]);
+
+  const handleCancelRes = async (event) => {
+    event.preventDefault();
+    const abortController = new AbortController();
+    setError(null);
+    if (
+      window.confirm(
+        `Do you want to cancel this reservation? This cannot be undone.`
+      )
+    ) {
+      updateReservationStatus(
+        { status: "cancelled" },
+        res.reservation_id,
+        abortController.signal
+      )
+        .then(() => {
+          listTables();
+          history.push("/dashboard");
+        })
+        .catch(setError);
+    }
+  };
 
   return (
     <>
@@ -53,7 +76,9 @@ function ReservationDetail({ res }) {
         </td>
         <td data-reservation-id-cancel={reservation.reservation_id}>
           {reservation.status === "booked" ? (
-            <a className="btn btn-danger">Cancel</a>
+            <a className="btn btn-danger" onClick={handleCancelRes}>
+              Cancel
+            </a>
           ) : (
             <></>
           )}

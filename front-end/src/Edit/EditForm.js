@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { getReservation } from "../utils/api";
+import { getReservation, updateReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationForm from "../Reservations/ReservationForm";
 
@@ -31,10 +31,35 @@ function EditForm() {
     return () => abortController.abort();
   }, [reservation_id]);
 
+  const handleChange = ({ target }) => {
+    setCurrentReservation({
+      ...currentReservation,
+      [target.name]: target.value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await updateReservation({
+      ...currentReservation,
+      people: Number(currentReservation.people),
+    })
+      .then((response) => {
+        setCurrentReservation({ ...response });
+        history.push(`/dashboard?date=${currentReservation.reservation_date}`);
+      })
+      .catch(setError);
+  };
+
   return (
     <>
       <ErrorAlert error={error} />
-      <ReservationForm history={history} reservation={currentReservation} />
+      <ReservationForm
+        history={history}
+        reservation={currentReservation}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+      />
     </>
   );
 }

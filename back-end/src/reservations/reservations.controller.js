@@ -47,6 +47,13 @@ function read(req, res, next) {
   res.status(200).json({ data });
 }
 
+async function updateReservation(req, res, next) {
+  const reservation = req.body.data;
+  const newRes = await service.updateReservation(reservation);
+  const result = newRes[0];
+  res.status(200).json({ data: result });
+}
+
 async function updateResStatus(req, res, next) {
   const { status } = req.body.data;
   const reservation = res.locals.reservation;
@@ -235,6 +242,18 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), read],
+  updateReservation: [
+    hasRequiredProperties,
+    reservationDateIsADate,
+    reservationTimeIsATime,
+    peopleIsANumber,
+    notInThePast,
+    notTuesday,
+    isWithinOpenHours,
+    notSeated,
+    notFinished,
+    asyncErrorBoundary(updateReservation),
+  ],
   updateResStatus: [
     asyncErrorBoundary(reservationExists),
     notFinishedForUpdate,

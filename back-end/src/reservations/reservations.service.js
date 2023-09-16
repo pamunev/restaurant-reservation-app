@@ -45,6 +45,36 @@ function createTable(table) {
     .then((createdRecords) => createdRecords[0]);
 }
 
+function updateReservation(reservation) {
+  const {
+    reservation_id,
+    first_name,
+    last_name,
+    mobile_number,
+    reservation_date,
+    reservation_time,
+    people,
+  } = reservation;
+  return knex("reservations").where({ reservation_id }).update(
+    {
+      first_name: first_name,
+      last_name: last_name,
+      mobile_number: mobile_number,
+      reservation_date: reservation_date,
+      reservation_time: reservation_time,
+      people: people,
+    },
+    [
+      "first_name",
+      "last_name",
+      "mobile_number",
+      "reservation_date",
+      "reservation_time",
+      "people",
+    ]
+  );
+}
+
 function updateResStatus(reservation_id, status) {
   return knex("reservations")
     .where({ reservation_id })
@@ -58,6 +88,7 @@ function listTables() {
 module.exports = {
   create,
   read,
+  updateReservation,
   updateResStatus,
   list,
   listReservationsForDate,
