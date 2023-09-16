@@ -75,7 +75,7 @@ function SearchForm() {
             </thead>
             <tbody>
               {reservations.map((res) => (
-                <ReservationDetail res={res} />
+                <ReservationDetail res={res} key={res.reservation_id} />
               ))}
             </tbody>
           </table>
