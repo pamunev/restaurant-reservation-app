@@ -27,7 +27,7 @@ router
 router
   .route("/:reservation_id")
   .get(controller.read)
-  .put(controller.updateResStatus)
+  .put(controller.updateReservation)
   .all(methodNotAllowed);
 
 module.exports = router;
