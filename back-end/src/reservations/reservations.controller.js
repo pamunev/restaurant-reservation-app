@@ -7,19 +7,17 @@ const hasProperties = require("../errors/hasProperties");
  */
 async function list(req, res) {
   const { date, currentDate, mobile_number } = req.query;
-  if (date) {
-    const reservations = await service.listReservationsForDate(date);
-    res.json({ data: reservations });
-  } else if (currentDate) {
-    const reservations = await service.listReservationsForDate(currentDate);
-    res.json({ data: reservations });
+  let reservations;
+
+  if (date || currentDate) {
+    const targetDate = date || currentDate;
+    reservations = await service.listReservationsForDate(targetDate);
   } else if (mobile_number) {
-    const data = await service.listByPhone(mobile_number);
-    res.json({ data });
+    reservations = await service.listByPhone(mobile_number);
   } else {
-    const reservations = await service.list();
-    res.json({ data: reservations });
+    reservations = await service.list();
   }
+  res.json({ data: reservations });
 }
 
 async function listAllReservations(req, res, next) {
