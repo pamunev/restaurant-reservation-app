@@ -47,7 +47,7 @@ function SearchForm() {
         <label htmlFor="mobile_number">Phone number:</label>
         <input
           name="mobile_number"
-          type="tel"
+          type="search"
           value={numberToBeSearched.value}
           pattern="[0-9]{10}"
           placeholder="Enter a customer's phone number"
