@@ -15,6 +15,11 @@ router
   .all(methodNotAllowed);
 
 router
+  .route("/:reservation_id/edit")
+  .get(controller.read)
+  .all(methodNotAllowed);
+
+router
   .route("/:reservation_id/seat")
   .post(controller.createTable)
   .all(methodNotAllowed);

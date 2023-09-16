@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
+import Edit from "../Edit";
 
 function ReservationDetail({ res }) {
   const [reservation, setReservation] = useState(res);
@@ -34,6 +35,25 @@ function ReservationDetail({ res }) {
             >
               Seat
             </a>
+          ) : (
+            <></>
+          )}
+        </td>
+        <td>
+          {reservation.status === "booked" ? (
+            <a
+              href={`/reservations/${reservation_id}/edit`}
+              className="btn btn-secondary"
+            >
+              Edit
+            </a>
+          ) : (
+            <></>
+          )}
+        </td>
+        <td data-reservation-id-cancel={reservation.reservation_id}>
+          {reservation.status === "booked" ? (
+            <a className="btn btn-danger">Cancel</a>
           ) : (
             <></>
           )}
