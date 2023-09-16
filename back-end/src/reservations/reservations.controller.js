@@ -6,20 +6,21 @@ const hasProperties = require("../errors/hasProperties");
  * List handler for reservation resources
  */
 async function list(req, res) {
-  const { date, currentDate } = req.query;
+  const { date, currentDate, mobile_number } = req.query;
   if (date) {
     const reservations = await service.listReservationsForDate(date);
     res.json({ data: reservations });
   } else if (currentDate) {
     const reservations = await service.listReservationsForDate(currentDate);
     res.json({ data: reservations });
+  } else if (mobile_number) {
+    const data = await service.listByPhone(mobile_number);
+    res.json({ data });
   } else {
     const reservations = await service.list();
     res.json({ data: reservations });
   }
 }
-
-async function listReservationsMatchingMobileNumber(req, res, next) {}
 
 async function listAllReservations(req, res, next) {
   const allReservations = await service.list();

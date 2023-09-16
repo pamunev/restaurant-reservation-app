@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import "../App.css";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import ReservationDetail from "../NewReservation/ReservationDetail";
 
 function SearchForm() {
   const [numberToBeSearched, setNumberToBeSearched] = useState({
     mobile_number: "",
   });
-  const [reservation, setReservations] = useState([]);
+  const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+
+  const history = useHistory();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -27,6 +31,7 @@ function SearchForm() {
         abortController.signal
       );
       setReservations(returnedReservations);
+      history.push("/search");
     } catch (error) {
       setReservationsError(error);
     }
@@ -51,9 +56,35 @@ function SearchForm() {
           className="ml-2 search-input-field"
           onChange={handleChange}
         />
-        <br />
-        <button>Find</button>
+        <button className="ml-2">Find</button>
       </form>
+      {reservations && reservations.length ? (
+        <div>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>People in Party</th>
+                <th>Mobile #</th>
+                <th>Reservation Date</th>
+                <th>Reservation Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reservations.map((res) => (
+                <ReservationDetail res={res} />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <>
+          <ErrorAlert error={reservationsError} />
+        </>
+      )}
     </>
   );
 }
