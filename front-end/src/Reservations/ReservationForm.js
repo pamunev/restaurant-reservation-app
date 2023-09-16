@@ -44,6 +44,8 @@ function ReservationForm({ handleSubmit, handleChange, history, reservation }) {
         <input
           className="ml-2 mt-2"
           type="date"
+          placeholder="YYYY-MM-DD"
+          pattern="\d{4}-\d{2}-\d{2}"
           id="reservation_date"
           name="reservation_date"
           value={reservation.reservation_date}
@@ -55,6 +57,8 @@ function ReservationForm({ handleSubmit, handleChange, history, reservation }) {
         <input
           className="ml-2 mt-2"
           type="time"
+          placeholder="HH:MM"
+          pattern="[0-9]{2}:[0-9]{2}"
           id="reservation_time"
           name="reservation_time"
           value={reservation.reservation_time}
