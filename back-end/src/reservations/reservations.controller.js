@@ -20,11 +20,6 @@ async function list(req, res) {
   res.json({ data: reservations });
 }
 
-async function listAllReservations(req, res, next) {
-  const allReservations = await service.list();
-  res.json({ data: allReservations });
-}
-
 async function create(req, res) {
   const data = await service.create(req.body.data);
   res.status(201).json({ data });
@@ -39,8 +34,6 @@ async function listTables(req, res, next) {
   const data = await service.list();
   res.status(201).json({ data });
 }
-
-// CREATE READ FUNCTION
 
 function read(req, res, next) {
   const data = res.locals.reservation;
@@ -64,7 +57,7 @@ async function updateResStatus(req, res, next) {
   res.status(200).json({ data: { status: data[0].status } });
 }
 
-// Validation Middleware
+// VALIDATION MIDDLEWARE
 
 async function reservationExists(req, res, next) {
   const { reservation_id } = req.params;
@@ -178,17 +171,6 @@ function notInThePast(req, res, next) {
   });
 }
 
-// A function to prevent reservations before 10:30 am
-// How do I parse time?
-/* 
-function open hours
-let opening = 10:30
-let closing = 21:30
-If reservation_time < opening || reservation time > closing
-then next(error)
-otherwise, next.
-*/
-
 function isWithinOpenHours(req, res, next) {
   let openingTime = "10:30";
   let closingTime = "21:30";
@@ -228,7 +210,6 @@ function notFinished(req, res, next) {
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  listAllReservations,
   create: [
     hasRequiredProperties,
     reservationDateIsADate,

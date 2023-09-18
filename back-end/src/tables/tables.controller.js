@@ -29,7 +29,7 @@ async function list(req, res, next) {
   res.status(200).json({ data });
 }
 
-// Read reservation and read table middleware
+// VALIDATION MIDDLEWARE
 
 async function tableExists(req, res, next) {
   const table_id = req.params.table_id;
@@ -58,8 +58,6 @@ async function reservationExists(req, res, next) {
   });
 }
 
-// If people in reservation are greater than table capacity, return error.
-
 function reservationPeopleFewerThanCapacity(req, res, next) {
   const { reservation, table } = res.locals;
   if (reservation.people > table.capacity) {
@@ -70,8 +68,6 @@ function reservationPeopleFewerThanCapacity(req, res, next) {
   }
   return next();
 }
-
-// Validation middleware
 
 function hasData(req, res, next) {
   if (req.body.data) {
@@ -141,7 +137,6 @@ function tableOccupied(req, res, next) {
 }
 
 function resNotAlreadySeated(req, res, next) {
-  // Do this.
   const reservation = res.locals.reservation;
   if (reservation.status !== "seated") {
     return next();

@@ -1,22 +1,3 @@
-/**
- * Here I will make a form.
- * -- useState
- * -- change handler
- * -- submit handler
- * -- cancel handler?
- * -- useEffect?
- *
- * Submit button:
- * - need submit handler
- * -- saves new res,
- * ---- How do I save this into the database?
- * -- takes you to /dashboard page for date of this res.
- *
- * Cancel button:
- * - need click handler
- * -- takes you to previous page. history?
- */
-
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
