@@ -20,6 +20,7 @@ function SeatForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const abortController = new AbortController();
     const tableId = Number(tableToBeSeated);
     if (isNaN(tableId)) {
       return;
@@ -34,6 +35,7 @@ function SeatForm() {
         history.push("/dashboard");
       })
       .catch(setError);
+    return () => abortController.abort();
   };
 
   const handleCancel = (event) => {

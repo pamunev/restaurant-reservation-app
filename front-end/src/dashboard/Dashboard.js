@@ -106,6 +106,7 @@ function Dashboard({ date }) {
   };
 
   const refreshTables = () => {
+    const abortController = new AbortController();
     listTables()
       .then((returnedTables) => {
         setTables(returnedTables);
@@ -113,6 +114,7 @@ function Dashboard({ date }) {
       .catch((error) => {
         setReservationsError(error);
       });
+    return () => abortController.abort();
   };
 
   return (

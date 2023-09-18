@@ -39,6 +39,7 @@ function EditForm() {
   };
 
   const handleSubmit = async (event) => {
+    const abortController = new AbortController();
     event.preventDefault();
     await updateReservation({
       ...currentReservation,
@@ -49,6 +50,7 @@ function EditForm() {
         history.push(`/dashboard?date=${currentReservation.reservation_date}`);
       })
       .catch(setError);
+    return () => abortController.abort();
   };
 
   return (
