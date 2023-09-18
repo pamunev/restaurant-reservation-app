@@ -29,7 +29,7 @@ function ReservationDetail({ res }) {
       )
         .then(() => {
           listTables();
-          window.reload();
+          window.location.reload();
         })
         .catch(setError);
     }
