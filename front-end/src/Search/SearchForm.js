@@ -38,8 +38,6 @@ function SearchForm() {
     return () => abortController.abort();
   };
 
-  console.log("current phone number to search:", numberToBeSearched);
-
   return (
     <>
       <ErrorAlert error={reservationsError} />
