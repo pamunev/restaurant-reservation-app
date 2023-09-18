@@ -1,5 +1,5 @@
 import React from "react";
-import EditReservation from "./EditForm";
+import EditReservation from "./EditReservation";
 
 function Edit() {
   return (
