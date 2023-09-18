@@ -56,7 +56,7 @@ function SearchForm() {
           className="ml-2 search-input-field"
           onChange={handleChange}
         />
-        <button className="ml-2">Find</button>
+        <button className="btn btn-primary ml-2">Find</button>
       </form>
       {reservations && reservations.length ? (
         <div>

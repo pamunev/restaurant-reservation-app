@@ -44,7 +44,7 @@ function TablesForm() {
   return (
     <>
       <ErrorAlert error={tableError} />
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="table_name">Table name:</label>
         <input
           name="table_name"
@@ -56,19 +56,24 @@ function TablesForm() {
           onChange={handleChange}
         />
         <br />
-        <label htmlFor="capacity">Capacity:</label>
+        <label htmlFor="capacity" className="pr-1">
+          Capacity:
+        </label>
         <input
           name="capacity"
           id="capacity"
           type="number"
-          className="ml-2 mt-2"
+          className="ml-4 mt-2"
           min="1"
           value={tableToBeCreated.capacity}
           onChange={handleChange}
         />
         <br />
-        <button onClick={handleSubmit}>Submit</button>
-        <button onClick={handleCancel}>Cancel</button>
+        <br />
+        <button className="btn btn-primary">Submit</button>
+        <button onClick={handleCancel} className="btn btn-secondary ml-2">
+          Cancel
+        </button>
       </form>
     </>
   );

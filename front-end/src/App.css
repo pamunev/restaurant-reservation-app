@@ -1,3 +1,60 @@
+/* Form Styling */
+
 .search-input-field {
     width: 23%
 }
+
+input::placeholder {
+    font-size: 15px;
+}
+
+p, h1, h2, h3, h4, button {
+    font-family: "Roboto", "Helvetica", sans-serif;
+}
+
+.btn-munsell {
+    background-color: #348AA7;
+    color: white;
+}
+
+.background-green {
+    background-color: #367340;
+}
+
+.background-cosmic-latte {
+    background-color: #F8F4E3;
+}
+
+.background-gray {
+    background-color: #B1B1B1;
+}
+
+/*
+.form-container {
+    display: grid;
+    gap: 5px;  
+}
+
+.form-group label {
+    text-align: right;
+}
+*/
+
+
+
+
+/* Desktop View */
+
+@media all and (min-width: 800px) {
+
+/* Full height of screen for nav bar and other elements */
+
+html, body {
+    height: 100%;
+}
+
+.full-height {
+    height: 100%;
+}
+}
+

@@ -4,9 +4,11 @@ function ReservationForm({ handleSubmit, handleChange, history, reservation }) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="first_name">First name:</label>
+        <label htmlFor="first_name" className="mr-5 pr-4">
+          First name:
+        </label>
         <input
-          className="ml-2 mt-2"
+          className="ml-5 mt-2"
           type="text"
           id="first_name"
           name="first_name"
@@ -15,9 +17,11 @@ function ReservationForm({ handleSubmit, handleChange, history, reservation }) {
           required
         />
         <br />
-        <label htmlFor="last_name">Last name:</label>
+        <label htmlFor="last_name" className="mr-5 pr-4">
+          Last name:
+        </label>
         <input
-          className="ml-2 mt-2"
+          className="ml-5 mt-2"
           type="text"
           id="last_name"
           name="last_name"
@@ -26,9 +30,11 @@ function ReservationForm({ handleSubmit, handleChange, history, reservation }) {
           required
         />
         <br />
-        <label htmlFor="mobile_number">Mobile number:</label>
+        <label htmlFor="mobile_number" className="mr-4 pr-3">
+          Mobile number:
+        </label>
         <input
-          className="ml-2 mt-2"
+          className="ml-5 mt-2"
           type="tel"
           id="mobile_number"
           name="mobile_number"
@@ -40,9 +46,11 @@ function ReservationForm({ handleSubmit, handleChange, history, reservation }) {
           required
         />
         <br />
-        <label htmlFor="reservation_date">Reservation Date:</label>
+        <label htmlFor="reservation_date" className="mr-4">
+          Reservation Date:
+        </label>
         <input
-          className="ml-2 mt-2"
+          className="ml-5 mt-2"
           type="date"
           placeholder="YYYY-MM-DD"
           pattern="\d{4}-\d{2}-\d{2}"
@@ -53,9 +61,11 @@ function ReservationForm({ handleSubmit, handleChange, history, reservation }) {
           required
         />
         <br />
-        <label htmlFor="reservation_time">Reservation Time:</label>
+        <label htmlFor="reservation_time" className="mr-4">
+          Reservation Time:
+        </label>
         <input
-          className="ml-2 mt-2"
+          className="ml-5 mt-2"
           type="time"
           placeholder="HH:MM"
           pattern="[0-9]{2}:[0-9]{2}"

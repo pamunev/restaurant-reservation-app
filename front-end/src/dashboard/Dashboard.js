@@ -119,14 +119,22 @@ function Dashboard({ date }) {
 
   return (
     <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date: {currentDate}</h4>
+      <div>
+        <h1>Dashboard</h1>
+        <div className="d-md-flex mb-3">
+          <h4 className="mb-0">Reservations for date: {currentDate}</h4>
+        </div>
+        <ErrorAlert error={reservationsError} />
+        <button onClick={handlePreviousDate} className="btn btn-primary mb-2">
+          Previous
+        </button>
+        <button onClick={handleToday} className="btn btn-munsell mb-2 ml-2">
+          Today
+        </button>
+        <button onClick={handleNextDate} className="btn btn-primary mb-2 ml-2">
+          Next
+        </button>
       </div>
-      <ErrorAlert error={reservationsError} />
-      <button onClick={handlePreviousDate}>Previous</button>
-      <button onClick={handleToday}>Today</button>
-      <button onClick={handleNextDate}>Next</button>
       <table className="table table-striped">
         <thead>
           <tr>

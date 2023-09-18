@@ -13,7 +13,7 @@ You can find the live application here: https://pablosperiodictables-6pwr.onrend
 - "https://pablosperiodictables.onrender.com/reservations": Information for all reservations in the database.
 - "https://pablosperiodictables.onrender.com/reservations/:reservation_id": Information for a single reservation.
 - "https://pablosperiodictables.onrender.com/reservations/:reservation_id/seat": Assign a reservation to a table.
-- "https://pablosperiodictables.onrender.com/reservations/:reservation_id/status": update a reservation's status.
+- "https://pablosperiodictables.onrender.com/reservations/:reservation_id/status": Update a reservation's status.
 - "https://pablosperiodictables.onrender.com/tables": Information for all the tables in the restaurant.
 - "https://pablosperiodictables.onrender.com/tables/:table_id/seat": Assign a reservation to a table.
 
