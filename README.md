@@ -38,3 +38,17 @@ React, Node.js, Express, Knex, and PostgreSQL.
 
 1. Run `npm install` to install project dependencies.
 1. Run `npm run start:dev` to start your server in development mode.
+
+### Screenshots
+
+![Dashboard](/screenshots/dashboard.png)
+_Caption: The main interface of the application with a list of reservations and tables._
+
+![Creating a Reservation](/screenshots/create_reservation.png)
+_Caption: Adding a new reservation to the list._
+
+![Responsive Design](/screenshots/responsive_design.png)
+_Caption: The application adapts to different screen sizes._
+
+![Error Handling](/screenshots/error_handling.png)
+_Caption: How errors are displayed to the user._
