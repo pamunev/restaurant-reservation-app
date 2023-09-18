@@ -1,4 +1,4 @@
-Restaurant Reservation System Backend
+Restaurant Reservation System Front-end
 
 This is code for the front-end of the Periodic Tables application.
 
