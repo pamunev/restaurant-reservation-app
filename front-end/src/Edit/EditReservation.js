@@ -4,7 +4,7 @@ import { getReservation, updateReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationForm from "../Reservations/ReservationForm";
 
-function EditForm() {
+function EditReservation() {
   const { reservation_id } = useParams();
   const [currentReservation, setCurrentReservation] = useState({
     reservation_id,
@@ -66,4 +66,4 @@ function EditForm() {
   );
 }
 
-export default EditForm;
+export default EditReservation;
