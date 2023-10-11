@@ -41,12 +41,6 @@ function NewReservation() {
     return () => abortController.abort();
   };
 
-  const handleCancel = (event) => {
-    history.goBack();
-  };
-
-  console.log("current value of form:", newReservation);
-
   return (
     <>
       <h2>New Reservation</h2>
