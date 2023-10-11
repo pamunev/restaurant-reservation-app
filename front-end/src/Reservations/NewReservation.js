@@ -4,8 +4,6 @@ import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationForm from "./ReservationForm";
 
-const axios = require("axios");
-
 function NewReservation() {
   const history = useHistory();
 
