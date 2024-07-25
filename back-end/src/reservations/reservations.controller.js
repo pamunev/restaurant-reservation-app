@@ -21,6 +21,7 @@ async function list(req, res) {
 }
 
 async function create(req, res) {
+  console.log("entering create middleware");
   const data = await service.create(req.body.data);
   res.status(201).json({ data });
 }
@@ -162,6 +163,8 @@ function notInThePast(req, res, next) {
   const proposedDate = new Date(
     `${reservation_date} ${reservation_time}`
   ).valueOf();
+  console.log("Date I think it is:", today);
+  console.log("proposed date:", proposedDate);
   if (proposedDate > today) {
     return next();
   }
